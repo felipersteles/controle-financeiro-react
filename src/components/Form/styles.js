@@ -43,7 +43,7 @@ export const RadioGroup = styled.div`
 `;
 
 export const Button = styled.button`
-  padding: 5px 10px;
+  padding: 5px 100px;
   border: none;
   border-radius: 5px;
   cursor: pointer;

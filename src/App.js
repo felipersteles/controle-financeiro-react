@@ -1,10 +1,9 @@
-
-import React, {useState, useEffect} from 'react';
-import {Resume, Header, Form} from './components'
-import Global from './styles/global';
+import React, { useState, useEffect } from "react";
+import { Resume, Header, Form } from "./components";
+import Global from "./styles/global";
 
 const App = () => {
-  const data = localStorage.getItem('transactions');
+  const data = localStorage.getItem("transactions");
   const [transactionsList, setTransactionsList] = useState(
     data ? JSON.parse(data) : []
   );
@@ -13,39 +12,46 @@ const App = () => {
   const [expense, setExpense] = useState(0);
   const [total, setTotal] = useState(0);
 
-  //Função chamada para fazer algo depois do render
-  useEffect(() => { 
+  useEffect(() => {
+    alert(
+      "Caution: This site is a test website, we are improving our performance and security."
+    );
+  }, []);
+
+  // In first render fill the data of user
+  // getting the info by local storage
+  useEffect(() => {
     const amountExpense = transactionsList
-      .filter((item) => item.expense) //filta os itens que são saida
+      .filter((item) => item.expense) // filter the withdraw items
       .map((transaction) => Number(transaction.amount));
-    
+
     const amountIncome = transactionsList
-      .filter((item) => !item.expense) //filta os itens que são entrada
+      .filter((item) => !item.expense) // filter the deposit items
       .map((transaction) => Number(transaction.amount));
-    
-    const expense = amountExpense.reduce((acc, cur) => acc + cur, 0).toFixed(2); //soma de todas as saida
-    const income = amountIncome.reduce((acc, cur) => acc + cur, 0).toFixed(2); //soma de todas as entradas
-    
-    const total = Math.abs(income - expense).toFixed(2); //arrendondando
-    
-    //Interpolando os valores
+
+    // calculate
+    const expense = amountExpense.reduce((acc, cur) => acc + cur, 0).toFixed(2);
+    const income = amountIncome.reduce((acc, cur) => acc + cur, 0).toFixed(2);
+
+    const total = Math.abs(income - expense).toFixed(2); // doing the ceiling or floor
+
+    // showing values
     setIncome(`R$ ${income}`);
     setExpense(`R$ ${expense}`);
     setTotal(`${Number(income) < Number(expense) ? "-" : ""}R$ ${total}`);
-  }, [transactionsList]); //tem como dependencia o transactionsList
+  }, [transactionsList]); // the render dependencies
 
-  //função para adicionar novos itens
+  // adding new item to state and local storage
   const handleAdd = (transaction) => {
     const newArrayTransactions = [...transactionsList, transaction];
 
     setTransactionsList(newArrayTransactions);
 
-    //salvando no local storage
     localStorage.setItem("transactions", JSON.stringify(newArrayTransactions));
   };
 
   return (
-  <>
+    <>
       <Header />
       <Resume income={income} expense={expense} total={total} />
       <Form
@@ -54,7 +60,8 @@ const App = () => {
         setTransactionsList={setTransactionsList}
       />
       <Global />
-  </>)
-}
+    </>
+  );
+};
 
-export default App
+export default App;

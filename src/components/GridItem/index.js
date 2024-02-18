@@ -1,4 +1,3 @@
-
 import React from "react";
 import * as GI from "./styles";
 import {
@@ -20,7 +19,10 @@ const GridItem = ({ item, onDelete }) => {
         )}
       </GI.Td>
       <GI.Td alignCenter>
-        <FaTrash onClick={() => onDelete(item.id)} />
+        <FaTrash
+          style={{ cursor: "pointer" }}
+          onClick={() => onDelete(item.id)}
+        />
       </GI.Td>
     </GI.Tr>
   );
